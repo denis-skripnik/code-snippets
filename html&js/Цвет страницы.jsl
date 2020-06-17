@@ -1,0 +1,17 @@
+<script language = "JavaScript">
+document.write("<form name=\"Colory\">");
+document.write("<small>Выберите цвет фона страницы:</small><br>");
+document.write("<select name=\"schemesel\" OnChange=\"document.bgColor = this.options[selectedIndex].value\">");
+document.write("<option value=\"FFFFFF\" selected>Белый");
+document.write("<option value=\"0000FF\">Синий");
+document.write("<option value=\"C0C0C0\">Серый");
+document.write("<option value=\"808080\">Темно-серый");
+document.write("<option value=\"FFFF00\">Желтый");
+document.write("<option value=\"FFFFC0\">Ярко-желтый");
+document.write("<option value=\"FF0000\">Красный");
+document.write("<option value=\"00C000\">Зеленый");
+document.write("<option value=\"C0FFC0\">Салатовый");
+document.write("<option value=\"FF00FF\">Розовый");
+document.write("</select>");
+document.write("</form>");
+</script>

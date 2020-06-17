@@ -1,0 +1,36 @@
+<!-- Эффектное текстовое меню с подсветкой  
+
+Copyright (C) WINsoft 1997-2006-->
+
+<style type = "text/css">
+TD.normal{color: black; font-weight: bold; background: #DDDDDD; cursor: hand;}
+TD.selected{color: white; font-weight: bold; background: navy; cursor: hand;}
+</style>
+
+<table width = "150" cellspacing = "1" cellpadding = "3" bgcolor = "navy" border = "5">
+
+<tr>
+<td class = normal onMouseOver = "this.className = 'selected'" onClick = "window.open('http://winsoft.tulpar.net','1'); return false;" onMouseOut = "this.className = 'normal'">
+<font size = 2>Связаться с нами</font>
+</td>
+</tr>
+
+<tr>
+<td class = normal onMouseOver = "this.className = 'selected'" onClick = "window.open('http://winsoft.tulpar.net','1'); return false;" onMouseOut = "this.className = 'normal'">
+<font size = 2>Наши программы</font>
+</td>
+</tr>
+
+<tr>
+<td class = normal onMouseOver = "this.className = 'selected'" onClick = "window.open('http://narod.yandex.ru/community/?com_id=61949','1'); return false;" onMouseOut = "this.className = 'normal'">
+<font size = 2>WINsoft on-line</font>
+</td>
+</tr>
+
+<tr>
+<td class = normal onMouseOver = "this.className = 'selected'" onClick = "window.open('http://www.realbook.ru','1'); return false;" onMouseOut = "this.className = 'normal'">
+<font size = 2>Гостевая книга</font>
+</td>
+</tr>
+
+</table>

@@ -1,0 +1,1 @@
+<form><input type="hidden" name="select"> <select name="sel" onchange="top.location.href =  this.options[this.selectedIndex].value;">   <option selected value="#">Выбор страницы</option>   <option VALUE="http://lenta.ru">Lenta.ru</option>   <option VALUE="http://gazeta.ru">Gazeta.ru</option>   <option VALUE="http://utro.ru">Утро.ru</option> </select></form>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>WonderTab</title>
+	<meta charset="utf-8"/>
+	<style type="text/css">
+		p, ul{margin:0;	padding:0;}
+		
+		/*start tabs */
+		#tabs {
+			font-size: 12px;
+			list-style-type: none;
+			float:left; 
+			background-color: #a4a7ac;
+			border-radius: 6px 6px 0 0;
+			-moz-box-shadow: 0 0 5px #aaa;
+			-webkit-box-shadow: 0 0 5px #aaa;
+			box-shadow: 0 0 5px #aaa;
+			margin-left:95px;
+			margin-top:10px;
+		}
+		 
+		.tab {
+			float: left;
+			border: 1px solid #a4a7ac;
+			padding:6px 30px;
+			color: #353535;
+			font-weight:bold;
+			font-size:11px;
+			border-radius: 6px 6px 0 0;
+		}
+		 
+		.tab:hover {
+			color:#000;
+			cursor:pointer;
+		}
+		 
+		.tab.active {
+			background-color: #fff;
+			border: 1px solid #fff;
+			border-radius: 6px 6px 0 0;
+			color:#CC0000;
+		}
+		 
+		.tab.active a {
+			float: left;
+			display: block;
+			color: #666666;
+			padding: 5px;
+			cursor: default;
+		}
+		/*stop tabs */
+		
+		/*start tab content */
+		#tabs_content{
+			background:#fff;
+			z-index:1000;
+			position:relative;
+			color:#2f2f2f;
+			border-radius: 3px;
+			clear:both;
+			width:320px;
+			padding:30px 10px 50px; 
+			-moz-box-shadow: 0 0 7px #5B6573;
+			-webkit-box-shadow: 0 0 7px #5B6573;
+			box-shadow: 0 0 7px #5B6573;
+			margin-left:95px;
+			border: 1px solid #a6a6a6;
+		}
+		.tab_content{
+			display:none;
+		}
+		.tab_content.active{
+			display:block;
+		}
+		/*stop tab content */
+	</style>
+</head>
+
+<body>
+<!--Чтобы js правильно работал не забудьте расставить порядковые номера у id вкладок (тег li), у id блоков с контентом и переменных вызываемой функции onclick="funcTab(N);". Иначе могут возникать ошибки. -->
+<div id="tab_block">
+   <ul id="tabs">
+     <li id="tab1" class="tab active" onclick="funcTab(1);">Tab1</li>
+     <li id="tab2" class="tab" onclick="funcTab(2);">Tab2</li>
+     <li id="tab3" class="tab" onclick="funcTab(3);">Tab3</li>
+     <li id="tab4" class="tab" onclick="funcTab(4);">Tab4</li>
+   </ul>
+   <div id="tabs_content">
+     <div class="tab_content active" id="tab_content1">
+       <p>Tab1 The quick brown fox jumps over the lazy dog</p>
+     </div>
+     <div class="tab_content" id="tab_content2">
+       <p>Tab2 The quick brown fox jumps over the lazy dog</p>
+     </div>
+     <div class="tab_content" id="tab_content3">
+       <p>Tab3 The quick brown fox jumps over the lazy dog</p>
+     </div>
+     <div class="tab_content" id="tab_content4">
+       <p>Tab4 The quick brown fox jumps over the lazy dog</p>
+     </div>
+   </div>
+</div>
+
+<script type="text/javascript">
+//функция funcTab(n) вызывается событием onclick на вкладке. N - номер вкладки, на которой кликнули
+function funcTab(n) {
+//получаем количество вкладок по классу. В нашем случае их - 4
+   var NTab = document.getElementsByClassName('tab').length;
+//запускаем цикл по количеству табов. Начинаем с 1, а не 0, чтобы удобнее было подставлять значение счетчика в айдишники
+  for (var i=1; i < NTab+1; i++) {
+//если значение счетчика цикла не равно номеру вкладки, на которую кликаем
+    if (i != n){
+//текущая вкладка может быть активна или не активна, поэтому для гарантии делаем текущую вкладку все равно не активной, пропуская вкладку, на которой кликнули
+     document.getElementById('tab'+i).className = 'tab';
+//тоже самое делаем для блоков с контентом
+     document.getElementById('tab_content'+i).className = 'tab_content'
+     }
+  }
+//теперь делаем таб, на котором кликнули, активным, меняя у него класс
+   document.getElementById('tab'+n).className = 'tab active';
+//тоже самое для блока с контентом
+   document.getElementById('tab_content'+n).className = 'tab_content active';
+}
+</script>
+
+</body>

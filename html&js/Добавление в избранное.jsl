@@ -1,0 +1,1 @@
+<a href="javascript:window.external.AddFavorite  ('<?= mso_current_url() ?>','<?= mso_head_meta('title') ?>')">    Добавить в Избранное</A>
