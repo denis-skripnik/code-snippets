@@ -1,10 +1,9 @@
-const conf = require('./config.json');
 const minterWallet = require('minterjs-wallet')
 const wallet = minterWallet.generateWallet();
 const {Minter, prepareLink, TX_TYPE} = require("minter-js-sdk");
-const minter = new Minter({apiType: 'node', baseURL: conf.minter_api});
+const minter = new Minter({apiType: 'node', baseURL: 'https://api.minter.one/'});
 const axios = require('axios');
-axios.defaults.baseURL = conf.minter_api;
+axios.defaults.baseURL = 'https://api.minter.one/';
 
 async function getTransaction(txHash) {
     try {
