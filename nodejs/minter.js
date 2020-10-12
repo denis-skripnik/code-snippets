@@ -31,7 +31,9 @@ async function createMinterLinkWithSend(to, value, coin, memo) {
         gasCoin: coin,
         payload: memo,
     };
-    return prepareLink(txParams);
+    const idTxParams = await minter.replaceCoinSymbol(txParams);
+    console.log(idTxParams);
+    return prepareLink(idTxParams);
 }
 
 async function createMinterLinkWithMultisend(list, memo) {
@@ -44,7 +46,9 @@ async function createMinterLinkWithMultisend(list, memo) {
         gasPrice: 1,
         payload: memo,
     };
-    return prepareLink(txParams);
+    const idTxParams = await minter.replaceCoinSymbol(txParams);
+    console.log(idTxParams);
+    return prepareLink(idTxParams);
 }
 
 async function send(frase, to, value, memo) {
@@ -62,8 +66,9 @@ const wif = wallet2.getPrivateKeyString();
         gasPrice: 1,
         payload: memo,
     };
-    
-    minter.postTx(txParams, {privateKey: wif})
+    const idTxParams = await minter.replaceCoinSymbol(txParams);
+    console.log(idTxParams);
+    minter.postTx(idTxParams, {privateKey: wif})
         .then((txHash) => {
             let res = await getTransaction(txHash);
             if (res === true) {
@@ -90,8 +95,9 @@ async function multiSend(frase, list, memo) {
             gasPrice: 1,
             payload: memo,
         };
-        
-        minter.postTx(txParams, {privateKey: wif})
+        const idTxParams = await minter.replaceCoinSymbol(txParams);
+        console.log(idTxParams);
+        minter.postTx(idTxParams, {privateKey: wif})
             .then((txHash) => {
                 let res = await getTransaction(txHash);
                 if (res === true) {
