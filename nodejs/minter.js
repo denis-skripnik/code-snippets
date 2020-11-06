@@ -147,10 +147,10 @@ for (let transaction of res.transactions) {
 async function getBalance(address) {
     try {
     let response = await axios.get('/address?address=' + address);
-    let balances = response.data.result.balance;
+    let balances = response.data.result.balances;
     for (let token in balances) {
-        balances[token] = parseInt(balances[token]);
-        balances[token] /= (10**18);
+        balances[token].value = parseInt(balances[token].value);
+        balances[token].value /= (10**18);
     }
     return {address, balances};
     } catch(e) {
