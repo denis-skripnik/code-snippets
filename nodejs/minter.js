@@ -1,7 +1,7 @@
 const minterWallet = require('minterjs-wallet')
 const wallet = minterWallet.generateWallet();
 const {Minter, prepareLink, TX_TYPE} = require("minter-js-sdk");
-const minter = new Minter({apiType: 'node', baseURL: 'https://api.minter.one/'});
+const minter = new Minter({apiType: 'node', baseURL: 'https://api.minter.one/v2'});
 const axios = require('axios');
 axios.defaults.baseURL = 'https://api.minter.one/';
 
@@ -30,7 +30,7 @@ async function createMinterLinkWithSend(to, value, coin, memo) {
         gasCoin: coin,
         payload: memo,
     };
-    const idTxParams = await Minter.replaceCoinSymbol(txParams);
+    const idTxParams = await minter.replaceCoinSymbol(txParams);
     console.log(idTxParams);
     return prepareLink(idTxParams);
 }
@@ -45,7 +45,7 @@ async function createMinterLinkWithMultisend(list, memo) {
         gasPrice: 1,
         payload: memo,
     };
-    const idTxParams = await Minter.replaceCoinSymbol(txParams);
+    const idTxParams = await minter.replaceCoinSymbol(txParams);
     console.log(idTxParams);
     return prepareLink(idTxParams);
 }
@@ -65,7 +65,7 @@ const wif = wallet2.getPrivateKeyString();
         gasPrice: 1,
         payload: memo,
     };
-    const idTxParams = await Minter.replaceCoinSymbol(txParams);
+    const idTxParams = await minter.replaceCoinSymbol(txParams);
     console.log(idTxParams);
     minter.postTx(idTxParams, {privateKey: wif})
         .then((txHash) => {
