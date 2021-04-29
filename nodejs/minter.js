@@ -3,12 +3,12 @@ const wallet = minterWallet.generateWallet();
 const {Minter, prepareLink, TX_TYPE} = require("minter-js-sdk");
 const minter = new Minter({apiType: 'node', baseURL: 'https://api.minter.one/v2'});
 const axios = require('axios');
-axios.defaults.baseURL = 'https://api.minter.one/';
+axios.defaults.baseURL = 'https://api.minter.one/v2';
 
 async function getTransaction(txHash) {
     try {
-    let response = await axios.get('/transaction?hash=' + txHash);
-if (response.data.result.code) {
+    let response = await axios.get('/transaction/' + txHash);
+if (response.data.code == 0) {
     return false;
 } else {
     return true;
@@ -36,13 +36,15 @@ async function createMinterLinkWithSend(to, value, coin, memo) {
 }
 
 async function createMinterLinkWithMultisend(list, memo) {
+    let minGasPrice = await axios.get('/min_gas_price');
+    let gasPrice = parseInt(minGasPrice.data.min_gas_price)
     const txParams = {
         type: TX_TYPE.MULTISEND,
         data: {
             list,
         },
         gasCoin: 'BIP',
-        gasPrice: 1,
+        gasPrice,
         payload: memo,
     };
     const idTxParams = await minter.replaceCoinSymbol(txParams);
@@ -53,7 +55,9 @@ async function createMinterLinkWithMultisend(list, memo) {
 async function send(frase, to, value, memo) {
 const wallet2 = minterWallet.walletFromMnemonic(frase);
 const wif = wallet2.getPrivateKeyString();
-    const txParams = {
+let minGasPrice = await axios.get('/min_gas_price');
+let gasPrice = parseInt(minGasPrice.data.min_gas_price)    
+const txParams = {
         chainId: 1,
         type: TX_TYPE.SEND,
         data: {
@@ -62,7 +66,7 @@ const wif = wallet2.getPrivateKeyString();
             coin: 'BIP',    
         },
         gasCoin: 'BIP',
-        gasPrice: 1,
+        gasPrice,
         payload: memo,
     };
     const idTxParams = await minter.replaceCoinSymbol(txParams);
@@ -84,14 +88,16 @@ return `Error: ${errorMessage}`;
 async function multiSend(frase, list, memo) {
     const wallet2 = minterWallet.walletFromMnemonic(frase);
     const wif = wallet2.getPrivateKeyString();
-        const txParams = {
+    let minGasPrice = await axios.get('/min_gas_price');
+    let gasPrice = parseInt(minGasPrice.data.min_gas_price)    
+    const txParams = {
             chainId: 1,
             type: TX_TYPE.MULTISEND,
             data: {
                 list,
             },
             gasCoin: 'BIP',
-            gasPrice: 1,
+            gasPrice,
             payload: memo,
         };
         const idTxParams = await minter.replaceCoinSymbol(txParams);
@@ -114,7 +120,7 @@ async function multiSend(frase, list, memo) {
 async function getBlockNum() {
     try {
     let response = await axios.get('/status');
-      return parseInt(response.data.result.latest_block_height);
+      return parseInt(response.data.latest_block_height);
     } catch(e) {
         console.log(JSON.stringify(e));
     return false;
@@ -123,8 +129,8 @@ async function getBlockNum() {
 
 async function getBlockData(number) {
     try {
-    let response = await axios.get('/block?height=' + number);
-      let res = response.data.result;
+    let response = await axios.get('/block/' + number);
+      let res = response.data;
       let ret = {};
     ret.num = res.height;
     ret.hash = res.hash;
@@ -146,12 +152,13 @@ for (let transaction of res.transactions) {
 
 async function getBalance(address) {
     try {
-    let response = await axios.get('/address?address=' + address);
-    let balances = response.data.result.balances;
-    for (let token in balances) {
-        balances[token].value = parseInt(balances[token].value);
-        balances[token].value /= (10**18);
-    }
+        let response = await axios.get('/address/' + address);
+        let balances = {};
+        for (let token of response.data.balance) {
+            let balance = parseFloat(token.value);
+            balance = balance.toFixed(2)
+            balances[token.coin.symbol] = balance;
+          }
     return {address, balances};
     } catch(e) {
         console.log(JSON.stringify(e));
